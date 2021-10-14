@@ -48,7 +48,7 @@ app.post("/webhook", (req, res) => {
     "url": "{Video URL}",
 
     // optional
-    "thumnailUrl": "{Thumbnail Image URL}",
+    "thumbnailUrl": "{Thumbnail Image URL}",
     "title": "{Video Title}",
     "description": "{Video Description}",
   }

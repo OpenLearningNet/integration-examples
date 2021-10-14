@@ -55,7 +55,7 @@ interface ContentPostData {
 
 interface VideoPostData {
   url: string;
-  thumnailUrl?: string;
+  thumbnailUrl?: string;
   title?: string;
   description?: string;
 }
