@@ -53,7 +53,7 @@ interface ContentPostData {
   content: string;
 }
 
-interface VideoPostData {
+interface MediaPostData {
   url: string;
   thumbnailUrl?: string;
   title?: string;
@@ -90,7 +90,7 @@ interface AttachmentsPostData {
 
 export type PostData =
   | ContentPostData
-  | VideoPostData
+  | MediaPostData
   | FilesPostData
   | AttachmentsPostData;
 
