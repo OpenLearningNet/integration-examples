@@ -1,6 +1,6 @@
 import express from "express";
-import https from "https";
-import { sendResponseToOpenLearning } from "./webhookResponse";
+import { WebhookIncomingData } from "./types";
+import { sendResponseToOpenLearning } from "./webhookReturn";
 
 const app = express();
 const port = 8090;
@@ -23,7 +23,7 @@ app.post("/webhook", (req, res) => {
       "data": {
         // Post Data, depends on Post type. See Below.
       },
-      "type": "{ 'html', 'text', 'image', 'video', 'files', or 'attachments', depending on Post type }",
+      "type": "{ 'html', 'text', 'image', 'video', 'files', 'url', or 'attachments', depending on Post type }",
       "id": "{ OpenLearning Post ID }",
       "createdAt": { Seconds Since Epoch of Post Creation }
     },
@@ -48,7 +48,7 @@ app.post("/webhook", (req, res) => {
     "url": "{Video URL}",
 
     // optional
-    "thumnail_url": "{Thumbnail Image URL}",
+    "thumnailUrl": "{Thumbnail Image URL}",
     "title": "{Video Title}",
     "description": "{Video Description}",
   }
@@ -89,7 +89,7 @@ app.post("/webhook", (req, res) => {
   */
 
 
-  const data = req.body;
+  const data: WebhookIncomingData = req.body;
 
   // tslint:disable-next-line:no-console
   console.log("\nReceived\n", data);

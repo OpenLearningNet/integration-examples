@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { WebhookReturnData } from "./types";
 
 /*
 
@@ -54,61 +55,11 @@ import fetch from "node-fetch";
 }
 */
 
-interface IframeFeedback {
-  type: "iframe";
-  title: string;
-  url: string;
-  caption?: string;
-}
 
-interface TextFeedback {
-  type: "text";
-  title: string;
-  text: string;
-}
-
-interface MediaFeedback {
-  type: "image" | "video" | "audio";
-  title: string;
-  url: string;
-  caption?: string;
-}
-
-export type Feedback = IframeFeedback | TextFeedback | MediaFeedback;
-
-export interface ResponseData {
-  token: string;
-  timestamp: number;
-  status: string;
-  text: {
-    value: string;
-    color?: string;
-  };
-  score?: {
-    value: number;
-    max?: number;
-    type?: "score" | "pie";
-    color?: string;
-  };
-  link?: {
-    text: string;
-    url: string;
-  };
-  feedback?: Array<Feedback>;
-  visibility?: "author" | "class" | "staff";
-  moderation?: {
-    permission: "author" | "class" | "staff";
-    report?: boolean;
-  };
-  notification?: {
-    text: string;
-  };
-}
-
-export const sendResponseToOpenLearning = (returnUrl: string, responseData: ResponseData) => {
+export const sendResponseToOpenLearning = (returnUrl: string, returnData: WebhookReturnData) => {
   return fetch(returnUrl, {
     method: 'post',
-    body: JSON.stringify(responseData),
+    body: JSON.stringify(returnData),
     headers: { 'Content-Type': 'application/json' }
   });
 };
