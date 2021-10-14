@@ -19,6 +19,11 @@
             background-color: <%= params.ext_openlearning_theme_color_dark %>;
             <% } %>
         }
+        .bgcol {
+            <% if (params.ext_openlearning_theme_color_background) { %>
+            background-color: <%= params.ext_openlearning_theme_color_background %>;
+            <% } %>
+        }
         .btn {
             <% if (params.ext_openlearning_theme_color_light) { %>
             background-color: <%= params.ext_openlearning_theme_color_light %>;
@@ -45,8 +50,11 @@
         <h1 class="header">Example LTI Provider</h1>
         <p>You are logged in as: <%= params.lis_person_name_full %> (<%= params.user_id %>)</p>
         <p>You are signed in from: <%= params.context_title %> (<%= params.context_id %>)</p>
-        <div class="darkbg" style="width: 200px; height: 200px; padding: 50px;">
-            <div class="lightbg" style="width: 100px; height: 100px;"></div>
+        <p>Theme:</p>
+        <div class="bgcol" style="width: 300px; height: 300px; padding: 50px;">
+            <div class="darkbg" style="width: 200px; height: 200px; padding: 50px;">
+                <div class="lightbg" style="width: 100px; height: 100px;"></div>
+            </div>
         </div>
         <div>
             <% if (params.launch_presentation_locale) { %><div>Language: <%= params.launch_presentation_locale %></div><% } %>
