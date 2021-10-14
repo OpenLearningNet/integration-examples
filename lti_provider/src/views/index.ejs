@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Example LTI Provider</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        .lightbg {
+            <% if (params.ext_openlearning_theme_color_light) { %>
+            background-color: <%= params.ext_openlearning_theme_color_light %>;
+            <% } %>
+        }
+        .darkbg {
+            <% if (params.ext_openlearning_theme_color_dark) { %>
+            background-color: <%= params.ext_openlearning_theme_color_dark %>;
+            <% } %>
+        }
+        .btn {
+            <% if (params.ext_openlearning_theme_color_light) { %>
+            background-color: <%= params.ext_openlearning_theme_color_light %>;
+            <% } %>
+        }
+
+        .btn:hover, .btn:active, .btn:focus {
+            <% if (params.ext_openlearning_theme_color_dark) { %>
+            background-color: <%= params.ext_openlearning_theme_color_dark %>;
+            <% } %>
+        }
+    </style>
+    <script>
+        function resize() {
+            window.parent.postMessage({
+                height: window.innerHeight,
+                subject: 'lti.frameResize',
+            }, '*');
+        };
+    </script>
+</head>
+<body onload="resize">
+    <div class="container">
+        <h1 class="header">Example LTI Provider</h1>
+        <p>You are logged in as: <%= params.lis_person_name_full %> (<%= params.user_id %>)</p>
+        <p>You are signed in from: <%= params.context_title %> (<%= params.context_id %>)</p>
+        <div class="darkbg" style="width: 200px; height: 200px; padding: 50px;">
+            <div class="lightbg" style="width: 100px; height: 100px;"></div>
+        </div>
+        <div>
+            <% if (params.launch_presentation_locale) { %><div>Language: <%= params.launch_presentation_locale %></div><% } %>
+            <div>
+                Attachments/Sharing Enabled: <% if (params.ext_openlearning_attachments_url) { %> Yes <% } else { %> No <% } %>
+            </div>
+        </div>
+        <% if (params.ext_openlearning_attachments_url) { %>
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea class="materialize-textarea" id="shareText" placeholder="text document"></textarea>
+                        <label for="shareText">Text to Share</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" id="shareUrl" placeholder="iframe Url">
+                        <label for="shareUrl">Embed an iFrame in the Post</label>
+                    </div>
+                </div>
+                
+                <button class="waves-effect waves-light btn" type="button" id="shareButton">Publish to OpenLearning</button>
+            </form>
+            <script>
+                function publish() {
+                    var text = document.getElementById("shareText").value;
+                    var iframeUrl = document.getElementById("shareUrl").value;
+
+                    // This is a signed token.
+                    // Do not reveal this to the client if you need to prevent
+                    // attachments from being forged by other parties
+                    // (instead do the request as a server-sent request).
+                    var lisResultSourcedid = "<%= params.lis_result_sourcedid %>";
+
+                    var attachmentsUrl = "<%= params.ext_openlearning_attachments_url %>";
+                    var data = {
+                        lis_result_sourcedid: lisResultSourcedid,
+                        attachments: [
+                            {
+                                displayType: "content",
+                                name: "Text Document",
+                                contentType: "text/plain",
+                                content: text
+                            },
+                            {
+                                displayType: "embed-url",
+                                contentType: "text/html",
+                                content: iframeUrl,
+                                name: "iFramed Webpage",
+                                meta: {
+                                    "key": "value"
+                                }
+                            }
+                        ]
+                    };
+                    fetch(attachmentsUrl, {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                }
+
+                document.getElementById('shareButton').addEventListener('click', publish);
+            </script>
+        <% } %>
+    </div>
+</body>
+</html>
