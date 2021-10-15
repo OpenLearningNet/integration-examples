@@ -84,7 +84,7 @@ interface AttachmentsPostData {
     content: string;
     height?: number;
     caption?: string;
-    meta: any;
+    meta?: any;
   }>;
 }
 
