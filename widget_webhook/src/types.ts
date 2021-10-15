@@ -40,6 +40,8 @@ export interface WebhookReturnData {
   };
   feedback?: Array<Feedback>;
   visibility?: "author" | "class" | "staff";
+  
+  // Not yet implemented:
   moderation?: {
     permission: "author" | "class" | "staff";
     report?: boolean;
