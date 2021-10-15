@@ -44,6 +44,8 @@ import { WebhookReturnData } from "./types";
         }
     ],
     "visibility": "class", // optional, can also be "author", or "staff", this determines who can see the status and link (but not the feedback)
+    
+    // Not yet implemented:
     "moderation": {
         "permission": "author",  // optional, can also be "class" or "staff", changes the entire Post's access permission
         "report": true // optional, reports this post (auto-moderation)
